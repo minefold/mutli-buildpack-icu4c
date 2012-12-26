@@ -1,0 +1,31 @@
+#!/bin/sh
+
+if [ -d $2/icu4c ]
+then
+  echo "-----> Skipping icu4c"
+else
+  echo "-----> Building icu4c"
+
+  mkdir -p $2
+  cd $2
+
+  curl http://download.icu-project.org/files/icu4c/50.1.1/icu4c-50_1_1-src.tgz | tar xz
+
+  # Build
+
+  cd icu/source
+
+  chmod +x runConfigureICU configure install-sh
+  ./runConfigureICU Linux
+  make
+
+  # Cleanup
+
+  cd ../..
+  mv icu/source icu4c
+  rm -rf icu
+fi
+
+cp $2/icu4c $1/vendor/icu4c
+
+echp "-----> Installed icu4c"
