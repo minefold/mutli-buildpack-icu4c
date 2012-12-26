@@ -1,5 +1,9 @@
 #!/bin/sh
 
+indent() {
+  sed -u 's/^/       /'
+}
+
 if [ -d $2/icu4c ]
 then
   echo "-----> Skipping icu4c"
@@ -14,14 +18,14 @@ else
   # Build
 
   cd icu/source
-
   chmod +x runConfigureICU configure install-sh
-  ./runConfigureICU Linux
-  make
+
+  ./runConfigureICU Linux | indent
+  make | indent
 
   # Cleanup
 
-  cd ../..
+  cd $2
   mv icu/source icu4c
   rm -rf icu
 fi
