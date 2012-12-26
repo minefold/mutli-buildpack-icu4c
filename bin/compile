@@ -28,4 +28,4 @@ fi
 
 cp $2/icu4c $1/vendor/icu4c
 
-echp "-----> Installed icu4c"
+echo "-----> Installed icu4c"
