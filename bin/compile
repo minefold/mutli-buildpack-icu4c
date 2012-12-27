@@ -16,8 +16,6 @@ function indent() {
   esac
 }
 
-env | indent
-
 if [ -d $cache/icu4c ]
 then
   echo "-----> Building icu4c from cache"
@@ -54,5 +52,7 @@ cat << PROFILE > $build/.profile.d/icu4c.sh
 #!/usr/bin/env bash
 PATH=\$PATH:\$HOME/vendor/icu4c/bin
 PROFILE
+
+env
 
 echo "-----> Installed icu4c"
