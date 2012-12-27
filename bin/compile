@@ -32,6 +32,6 @@ else
   rm -rf icu
 fi
 
-cp -r $2/icu4c $1/vendor/icu4c
+cp $2/icu4c $1/vendor/icu4c
 
 echo "-----> Installed icu4c"
