@@ -34,4 +34,9 @@ fi
 
 cp -r $2/icu4c $1/vendor/icu4c
 
-echo "-----> Installed icu4c"
+if [ -d $1/vendor/icu4c ];
+  echo "-----> Installed icu4c"
+else
+  echo "       Error installing icu4c"
+  exit 1
+fi
