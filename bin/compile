@@ -16,6 +16,8 @@ function indent() {
   esac
 }
 
+env | indent
+
 if [ -d $cache/icu4c ]
 then
   echo "-----> Building icu4c from cache"
@@ -50,10 +52,7 @@ mkdir -p $build/.profile.d
 
 cat << PROFILE > $build/.profile.d/icu4c.sh
 #!/usr/bin/env bash
-icu4c=\$HOME/vendor/icu4c
-
 PATH=\$PATH:\$HOME/vendor/icu4c/bin
-export LIB=\$LIB:\$icu4c
 PROFILE
 
 echo "-----> Installed icu4c"
