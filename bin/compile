@@ -1,19 +1,21 @@
 #!/bin/sh
 
+ICU_SRC_URL="http://download.icu-project.org/files/icu4c/50.1.1/icu4c-50_1_1-src.tgz"
+
 indent() {
   sed -u 's/^/       /'
 }
 
 if [ -d $2/icu4c ]
 then
-  echo "-----> Skipping icu4c"
+  echo "-----> Building icu4c from cache"
 else
   echo "-----> Building icu4c"
 
   mkdir -p $2
   cd $2
 
-  curl http://download.icu-project.org/files/icu4c/50.1.1/icu4c-50_1_1-src.tgz | tar xz
+  curl $ICU_SRC_URL | tar xz
 
   # Build
 

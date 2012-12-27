@@ -1,5 +1,6 @@
 #!/binsh
 
-PATH="$HOME/vendor/icu4c:$PATH"
-export INCFLAGS="-I$HOME/vendor/icu4c/include:$INCFLAGS"
-export LDFLAGS="-I$HOME/vendor/icu4c/lib:$LDFLAGS"
+export ICU_DIR="$HOME/vndor/icu4c"
+export LIB="$ICU_DIR:$LIB"
+
+PATH="$ICU_DIR/bin:$PATH"
