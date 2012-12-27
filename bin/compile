@@ -1,21 +1,31 @@
-#!/bin/sh
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
 
-ICU_SRC_URL="http://download.icu-project.org/files/icu4c/50.1.1/icu4c-50_1_1-src.tgz"
+set -e
+set -o pipefail
 
-indent() {
-  sed -u 's/^/       /'
+build=$(cd "$1/" && pwd)
+cache=$(cd "$2/" && pwd)
+url="http://download.icu-project.org/files/icu4c/50.1.1/icu4c-50_1_1-src.tgz"
+
+function indent() {
+  c='s/^/       /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *)      sed -u "$c";;
+  esac
 }
 
-if [ -d $2/icu4c ]
+if [ -d $cache/icu4c ]
 then
   echo "-----> Building icu4c from cache"
 else
   echo "-----> Building icu4c"
 
-  mkdir -p $2
-  cd $2
+  mkdir -p $cache
+  cd $cache
 
-  curl $ICU_SRC_URL | tar xz
+  curl $url 2>&1 | tar xz | indent
 
   # Build
 
@@ -26,18 +36,24 @@ else
   make | indent
 
   # Cleanup
+  cd $HOME
 
-  cd $2
-  mv icu/source icu4c
-  rm -rf icu
+  mv $cache/icu/source $cache/icu4c
+  rm -rf $cache/icu
 fi
 
-cp -r $2/icu4c $1/vendor/icu4c
+cp -r $cache/icu4c $build/vendor/icu4c
 
-if [ -d $1/vendor/icu4c ];
-then
-  echo "-----> Installed icu4c"
-else
-  echo "       Error installing icu4c"
-  exit 1
-fi
+echo "-----> Installing .profile.d/icu4c.sh"
+
+mkdir -p $build/.profile.d
+
+cat << PROFILE > $build/.profile.d/icu4c.sh
+#!/usr/bin/env bash
+icu4c=\$HOME/vendor/icu4c
+
+PATH=\$PATH:\$HOME/vendor/icu4c/bin
+export LIB=\$LIB:\$icu4c
+PROFILE
+
+echo "-----> Installed icu4c"
