@@ -44,15 +44,4 @@ fi
 
 cp -r $cache/icu4c $build/vendor/icu4c
 
-echo "-----> Installing .profile.d/icu4c.sh"
-
-mkdir -p $build/.profile.d
-
-cat << PROFILE > $build/.profile.d/icu4c.sh
-#!/usr/bin/env bash
-PATH=\$PATH:\$HOME/vendor/icu4c/bin
-PROFILE
-
-env
-
 echo "-----> Installed icu4c"
